@@ -88,7 +88,7 @@ function App() {
       .then(() => {
         setPopupTitle("Вы успешно зарегистрировались!");
         setStatusImage(success);
-        navigate("/sign-in");
+        navigate("/signin");
       })
       .catch(() => {
         setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.");
@@ -100,7 +100,7 @@ function App() {
   function logOut () {
     setIsLoggedIn(false);
     setEmailName(null);
-    navigate("/sign-in");
+    navigate("/signin");
     localStorage.removeItem("jwt");
   }
 
@@ -275,7 +275,7 @@ function App() {
       <div className="root">
         <Routes>
           <Route
-            path="/sign-in"
+            path="/signin"
             element={
               <>
                 <Header title="Регистрация" route="/sign-up" />
@@ -285,10 +285,10 @@ function App() {
           />
 
           <Route
-            path="/sign-up"
+            path="/signup"
             element={
               <>
-                <Header title="Войти" route="/sign-in" />
+                <Header title="Войти" route="/signin" />
                 <Register onRegister={handleRegister} />
               </>
             }
@@ -321,7 +321,7 @@ function App() {
           />
           <Route
             path="*"
-            element={<Navigate to={isLoggedIn ? "/" : "/sign-in"} />}
+            element={<Navigate to={isLoggedIn ? "/" : "/signin"} />}
           />
         </Routes>
         <EditProfilePopup
