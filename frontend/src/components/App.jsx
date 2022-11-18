@@ -278,7 +278,7 @@ function App() {
             path="/signin"
             element={
               <>
-                <Header title="Регистрация" route="/sign-up" />
+                <Header title="Регистрация" route="/signup" />
                 <Login handleLogin={handleLogin} />
               </>
             }
