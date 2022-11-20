@@ -85,10 +85,9 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-47",
+  baseUrl: 'https://api.mesto.education.nomoredomains.icu/',
   headers: {
-    authorization: "cbd1d19b-554f-435c-9a41-b799d284e240",
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 export default api;
