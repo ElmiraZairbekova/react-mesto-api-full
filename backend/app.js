@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const { celebrate, Joi } = require('celebrate');
 
 const bodyParser = require('body-parser');
-
 const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
 const rateLimit = require('express-rate-limit');
@@ -39,6 +38,7 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
+
 app.use(requestLogger);
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
