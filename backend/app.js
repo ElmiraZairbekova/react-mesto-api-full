@@ -4,8 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { celebrate, Joi } = require('celebrate');
 
-// const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
 const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
 const rateLimit = require('express-rate-limit');
@@ -39,13 +39,12 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-app.use(cookieParser());
 app.use(requestLogger);
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors);
 
 app.post(
