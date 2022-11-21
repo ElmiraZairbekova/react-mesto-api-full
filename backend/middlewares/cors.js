@@ -2,6 +2,8 @@ const allowedCors = [
   'http://localhost:3000',
   'http://mesto.education.nomoredomains.icu',
   'https://mesto.education.nomoredomains.icu',
+  'http://api.mesto.education.nomoredomains.icu',
+  'https://api.mesto.education.nomoredomains.icu',
 ];
 
 const cors = (req, res, next) => {
