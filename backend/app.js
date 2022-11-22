@@ -34,6 +34,12 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 
+mongoose.connect('mongodb://localhost:27017/mestodb');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -41,12 +47,6 @@ app.get('/crash-test', () => {
 });
 
 app.use(requestLogger);
-
-mongoose.connect('mongodb://localhost:27017/mestodb');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors);
 
 app.post(
   '/signin',

@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new AuthorError('Необходима авторизация2222');
+    throw new AuthorError('Необходима авторизация');
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -15,11 +15,11 @@ module.exports = (req, res, next) => {
 
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
-    // req.user = payload;
+    req.user = payload;
   } catch (err) {
-    throw new AuthorError('Необходима авторизация6666');
+    throw new AuthorError('Необходима авторизация');
   }
 
-  req.user = payload;
+  // req.user = payload;
   next();
 };
