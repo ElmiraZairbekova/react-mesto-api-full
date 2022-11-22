@@ -10,7 +10,7 @@ const request = async ({
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...!!token && { 'Authorization': `Bearer ${jwt}` },
+      ...!!jwt && { 'Authorization': `Bearer ${jwt}` },
     },
     ...!!data && { body: JSON.stringify(data) },
   });
@@ -36,6 +36,6 @@ export function getToken (jwt) {
   return request({
     url: '/users/me',
     method: 'GET',
-    token,
+    jwt,
   })
 }
