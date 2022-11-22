@@ -3,14 +3,14 @@ const BASE_URL = 'https://api.mesto.education.nomoredomains.icu';
 const request = async ({
   url,
   method = 'POST',
-  token,
+  jwt,
   data,
 }) => {
   const response = await fetch(`${BASE_URL}${url}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...!!token && { 'Authorization': `Bearer ${token}` },
+      ...!!token && { 'Authorization': `Bearer ${jwt}` },
     },
     ...!!data && { body: JSON.stringify(data) },
   });
@@ -32,7 +32,7 @@ export function loginUser (email, password) {
   })
 };
 
-export function getToken (token) {
+export function getToken (jwt) {
   return request({
     url: '/users/me',
     method: 'GET',
