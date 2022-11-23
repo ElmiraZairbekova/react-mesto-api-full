@@ -1,5 +1,5 @@
 const BASE_URL = 'https://api.mesto.education.nomoredomains.icu';
-
+// const BASE_URL = 'https://auth.nomoreparties.co';
 // const request = async ({
 //   url,
 //   method = 'POST',
