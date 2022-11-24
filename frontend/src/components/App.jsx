@@ -118,7 +118,7 @@ function App() {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [isLoggedIn]);
 
   function logOut () {
     setIsLoggedIn(false);
