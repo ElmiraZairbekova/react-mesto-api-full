@@ -42,7 +42,7 @@ function Main(props) {
       </section>
 
       <section className="elements">
-          {props.cards.map((card, id) => (
+          {cards.map((card, id) => (
             <Card
               key={id}
               card={card}
