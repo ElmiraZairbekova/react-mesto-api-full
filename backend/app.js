@@ -73,9 +73,10 @@ app.post(
   createUser,
 );
 
-app.use(auth);
+// app.use(auth);
 app.use(cards);
 app.use(users);
+app.use(auth);
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));
 });
