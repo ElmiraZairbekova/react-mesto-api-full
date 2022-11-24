@@ -20,7 +20,7 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/cards`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       headers: this._getHeaders(),
     }).then((res) => {
       return this._checkResponse(res);
