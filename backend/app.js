@@ -11,7 +11,7 @@ const {
 } = require('./middlewares/validations');
 const routes = require('./routes');
 const auth = require('./middlewares/auth');
-const handelError = require('./middlewares/handelError');
+const handleError = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
@@ -37,7 +37,7 @@ app.use(routes);
 app.use(errorLogger);
 
 app.use(errors());
-app.use(handelError);
+app.use(handleError);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', () => {
   console.log('Connection successful');
