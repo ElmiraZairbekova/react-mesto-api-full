@@ -39,7 +39,7 @@ function App() {
     name: "Загрузка",
     about: "Загрузка",
   });
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState({});
 
   const [isLoggedIn, setIsLoggedIn] =
     useState(false);
@@ -78,17 +78,6 @@ function App() {
     }
   }, [isLoggedIn, navigate]);
   
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([user, cards]) => {
-        setCurrentUser(user);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([user, cards]) => {
