@@ -1,43 +1,23 @@
 require('dotenv').config();
-
 const express = require('express');
-
 const mongoose = require('mongoose');
-const { celebrate, Joi } = require('celebrate');
-
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
 const { createUser, login } = require('./controllers/users');
-
+const {
+  validationCreateUser,
+  validationLogin,
+} = require('./middlewares/validations');
+const routes = require('./routes');
 const auth = require('./middlewares/auth');
-const handleError = require('./middlewares/handleError');
-const NotFoundError = require('./errors/NotFoundError');
+const handelError = require('./middlewares/handelError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const users = require('./routes/users');
-const cards = require('./routes/cards');
-
 const { PORT = 3000 } = process.env;
-
 const app = express();
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-app.use(limiter);
-app.use(helmet());
-
-mongoose.connect('mongodb://localhost:27017/mestodb');
-
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors);
 
 app.get('/crash-test', () => {
@@ -73,16 +53,17 @@ app.post(
   createUser,
 );
 
-// app.use(auth);
-app.use(cards);
-app.use(users);
 app.use(auth);
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Запрашиваемый ресурс не найден'));
-});
+app.use(routes);
+
 app.use(errorLogger);
+
 app.use(errors());
-app.use(handleError);
+app.use(handelError);
+
+mongoose.connect('mongodb://localhost:27017/mestodb', () => {
+  console.log('Connection successful');
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
