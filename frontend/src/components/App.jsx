@@ -39,7 +39,7 @@ function App() {
     name: "Загрузка",
     about: "Загрузка",
   });
-  const [cards, setCards] = useState({});
+  const [cards, setCards] = useState([]);
 
   const [isLoggedIn, setIsLoggedIn] =
     useState(false);
@@ -78,31 +78,20 @@ function App() {
     }
   }, [isLoggedIn, navigate]);
   
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([user, cards]) => {
-        setCurrentUser(user);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
   function handleLogin (email, password) {
-    auth
-      .loginUser(email, password)
-      .then((res) => {
-        localStorage.setItem("jwt", res.token);
-        setIsLoggedIn(true);
-        setEmailName(email);
-        navigate("/");
-      })
-      .catch(() => {
-        setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.");
-        setStatusImage(fail);
-        handleInfoTooltip();
-      });
+  auth
+    .loginUser(email, password)
+    .then((res) => {
+      localStorage.setItem("jwt", res.token);
+      setIsLoggedIn(true);
+      setEmailName(email);
+      navigate("/");
+    })
+    .catch(() => {
+      setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.");
+      setStatusImage(fail);
+      handleInfoTooltip();
+    });
   }
 
   function handleRegister (email, password) {
@@ -119,6 +108,17 @@ function App() {
       })
       .finally(handleInfoTooltip);
   }
+
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setCurrentUser(user);
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   function logOut () {
     setIsLoggedIn(false);
