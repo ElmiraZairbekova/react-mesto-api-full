@@ -112,8 +112,8 @@ function App() {
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([user, cards]) => {
-        setCurrentUser(user.user);
-        setCards(cards.reverse());
+        setCurrentUser(user);
+        setCards(cards);
       })
       .catch((err) => {
         console.error(err);
