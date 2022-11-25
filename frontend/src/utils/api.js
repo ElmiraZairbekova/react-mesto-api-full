@@ -41,7 +41,7 @@ class Api {
       headers: this._getHeaders(),
       body: JSON.stringify({
         name: data.profile_name,
-        about: data.profile_job,
+        about: data.profile_description,
       }),
     }).then((res) => {
       return this._handleRes(res);
