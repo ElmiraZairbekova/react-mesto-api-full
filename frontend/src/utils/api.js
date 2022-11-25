@@ -93,7 +93,7 @@ class Api {
       method: 'PATCH',
       headers: this._getHeaders(),
       body: JSON.stringify({
-        avatar: data.avatar,
+        avatar: data.avatarLink,
       }),
     }).then((res) => {
       return this._handleRes(res);
