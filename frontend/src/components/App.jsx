@@ -55,28 +55,27 @@ function App() {
     isImagePopupOpen ||
     isInfoTooltipOpen;
 
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      auth
-        .getToken(jwt)
-        .then((res) => {
-          if (res) {
-            setIsLoggedIn(true);
-            setEmailName(res.data.email);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, []);
+    useEffect(() => {
+      const jwt = localStorage.getItem("jwt");
+      if (jwt) {
+        auth.getToken(jwt)
+          .then((res) => {
+            if (res) {
+              setIsLoggedIn(true);
+              setMailName(res.user.email);
+            }
+          })
+          .catch((err) => {
+            console.log(`Не удалось получить токен: ${err}`);
+          })
+      }
+    }, []);
   
-  useEffect(() => {
-    if (isLoggedIn === true) {
-      navigate("/");
-    }
-  }, [isLoggedIn, navigate]);
+    useEffect(() => {
+      if (isLoggedIn === true) {
+        navigate("/");
+      }
+    }, [isLoggedIn, navigate]);
   
   function handleLogin (email, password) {
   auth
