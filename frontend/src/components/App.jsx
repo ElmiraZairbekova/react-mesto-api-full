@@ -128,7 +128,6 @@ function App() {
         .then(([user, cards]) => {
           setCurrentUser(user);
           setCards(cards);
-          history.push('/');
         })
         .catch(e => console.log(`Ошибка первой загрузки: ${e}`))
   }, [isLoggedIn]);
