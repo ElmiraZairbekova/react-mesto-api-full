@@ -9,41 +9,28 @@ const ConflictError = require('../errors/ConflictError');
 const getUsers = (req, res, next) => {
   const { userList } = {};
   return User.find(userList)
-    .then((users) => res.status(200).send(users))
+    .then((users) => res.status(200).send({ data: users }))
     .catch(next);
 };
 
-// const getUser = (req, res, next) => {
-//   const { id } = req.params;
-
-//   return User.findById(id)
-//     .orFail(() => {
-//       throw new NotFound('Пользователь по указанному _id не найден');
-//     })
-//     .then((user) => res.status(200).send(user))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         throw new BadRequest('Переданы некорректные данные');
-//       } else if (err.name === 'NotFound') {
-//         throw new NotFound('Пользователь по указанному _id не найден');
-//       } else {
-//         next(err);
-//       }
-//     })
-//     .catch(next);
-// };
-
 const getUser = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(() => new NotFound('Пользователь не найден'))
-    .then((user) => res.send({ data: user }))
+  const { id } = req.params;
+
+  return User.findById(id)
+    .orFail(() => {
+      throw new NotFound('Пользователь по указанному _id не найден');
+    })
+    .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequest('Переданы некорректные данные'));
+        throw new BadRequest('Переданы некорректные данные');
+      } else if (err.name === 'NotFound') {
+        throw new NotFound('Пользователь по указанному _id не найден');
       } else {
         next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
