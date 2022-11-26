@@ -125,7 +125,7 @@ function App() {
         api.getUserInfo(), 
         api.getInitialCards()
       ])
-        .then(([currentUser, cards]) => {
+        .then(([user, cards]) => {
           setCurrentUser(user);
           setCards(cards);
           history.push('/');
