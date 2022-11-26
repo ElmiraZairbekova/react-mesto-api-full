@@ -31,7 +31,7 @@ const deleteCard = (req, res, next) => {
 
   return Cards.findById(cardId)
     .orFail(() => {
-      throw new NotFound('Карточка с указанным _id не найдена');
+      throw new NotFound('Карточка не найдена');
     })
     .then((card) => {
       if (card.owner.toString() === req.user._id) {
@@ -50,14 +50,14 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   ).orFail(() => {
-    throw new NotFound('Передан несуществующий _id карточки');
+    throw new NotFound('Карточка не найдена');
   })
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequest('Переданы некорректные данные для постановки лайка');
       } else if (err.name === 'NotFound') {
-        throw new NotFound('Передан несуществующий _id карточки');
+        throw new NotFound('Карточка не найдена');
       } else {
         next(err);
       }

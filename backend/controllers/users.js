@@ -18,14 +18,14 @@ const getUser = (req, res, next) => {
 
   return User.findById(id)
     .orFail(() => {
-      throw new NotFound('Пользователь по указанному _id не найден');
+      throw new NotFound('Пользователь не найден');
     })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequest('Переданы некорректные данные');
       } else if (err.name === 'NotFound') {
-        throw new NotFound('Пользователь по указанному _id не найден');
+        throw new NotFound('Пользователь не найден');
       } else {
         next(err);
       }
@@ -78,7 +78,7 @@ const updateUser = (req, res, next) => {
     { name, about },
     { new: true },
   ).orFail(() => {
-    throw new NotFound('Пользователь с указанным _id не найден');
+    throw new NotFound('Пользователь не найден');
   })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
@@ -98,7 +98,7 @@ const updateAvatar = (req, res, next) => {
     { avatar },
     { new: true },
   ).orFail(() => {
-    throw new NotFound('Пользователь с указанным _id не найден');
+    throw new NotFound('Пользователь не найден');
   })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
