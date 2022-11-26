@@ -7,49 +7,31 @@ const BadRequest = require('../errors/BadRequest');
 const ConflictError = require('../errors/ConflictError');
 
 const getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send({ data: users }))
+  const { userList } = {};
+  return User.find(userList)
+    .then((users) => res.status(200).send(users))
     .catch(next);
 };
 
 const getUser = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(() => new NotFound('Пользователь не найден'))
-    .then((user) => res.send({ data: user }))
+  const { id } = req.params;
+
+  return User.findById(id)
+    .orFail(() => {
+      throw new NotFound('Пользователь по указанному _id не найден');
+    })
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequest('Переданы некорректные данные'));
+        throw new BadRequest('Переданы некорректные данные');
+      } else if (err.name === 'NotFound') {
+        throw new NotFound('Пользователь по указанному _id не найден');
       } else {
         next(err);
       }
-    });
+    })
+    .catch(next);
 };
-// const getUsers = (req, res, next) => {
-//   const { userList } = {};
-//   return User.find(userList)
-//     .then((users) => res.status(200).send(users))
-//     .catch(next);
-// };
-
-// const getUser = (req, res, next) => {
-//   const { id } = req.params;
-
-//   return User.findById(id)
-//     .orFail(() => {
-//       throw new NotFound('Пользователь по указанному _id не найден');
-//     })
-//     .then((user) => res.status(200).send(user))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         throw new BadRequest('Переданы некорректные данные');
-//       } else if (err.name === 'NotFound') {
-//         throw new NotFound('Пользователь по указанному _id не найден');
-//       } else {
-//         next(err);
-//       }
-//     })
-//     .catch(next);
-// };
 
 const createUser = (req, res, next) => {
   const {
@@ -77,6 +59,7 @@ const getCurrentUser = (req, res, next) => User.findById(req.user._id)
     throw new NotFound('Пользователь не найден');
   })
   .then((user) => res.status(200).send({ user }))
+  .console.log(user)
   .catch((err) => {
     if (err.name === 'CastError') {
       throw new BadRequest('Переданы некорректные данные');
