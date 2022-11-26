@@ -62,7 +62,7 @@ function App() {
           .then((res) => {
             if (res) {
               setIsLoggedIn(true);
-              setEmailName(res.data.email);
+              setEmailName(res.user.email);
             }
           })
           .catch((err) => {
@@ -108,16 +108,31 @@ function App() {
       .finally(handleInfoTooltip);
   }
 
+  // useEffect(() => {
+  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
+  //     .then(([user, cards]) => {
+  //       setCurrentUser(user);
+  //       setCards(cards);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, [isLoggedIn]);
+
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([user, cards]) => {
-        setCurrentUser(user);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    isLoggedIn && 
+      Promise.all([
+        api.getUserInfo(), 
+        api.getInitialCards()
+      ])
+        .then(([currentUser, cards]) => {
+          setCurrentUser(user);
+          setCards(cards);
+          history.push('/');
+        })
+        .catch(e => console.log(`Ошибка первой загрузки: ${e}`))
   }, [isLoggedIn]);
+
 
   function logOut () {
     setIsLoggedIn(false);
