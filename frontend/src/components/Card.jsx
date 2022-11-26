@@ -6,7 +6,7 @@ function Card(props) {
 
   // Владелец карточки или нет
   const card = props.card; // объекты карточек
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = props.card.owner === currentUser._id;
 
   // Есть ли лайк
   const isLiked = props.card.likes.some((i) => i._id === currentUser._id);
