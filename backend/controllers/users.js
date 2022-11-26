@@ -9,7 +9,7 @@ const ConflictError = require('../errors/ConflictError');
 const getUsers = (req, res, next) => {
   const { userList } = {};
   return User.find(userList)
-    .then((users) => res.status(200).send({ data: users }))
+    .then((users) => res.status(200).send(users))
     .catch(next);
 };
 
@@ -20,7 +20,7 @@ const getUser = (req, res, next) => {
     .orFail(() => {
       throw new NotFound('Пользователь по указанному _id не найден');
     })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequest('Переданы некорректные данные');
