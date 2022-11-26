@@ -21,6 +21,7 @@ class Api {
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
       headers: this._getHeaders(),
     }).then((res) => {
       return this._handleRes(res);
@@ -29,6 +30,7 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
+      method: "GET",
       headers: this._getHeaders(),
     }).then((res) => {
       return this._handleRes(res);
