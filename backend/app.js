@@ -14,7 +14,13 @@ const auth = require('./middlewares/auth');
 const handleError = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const {
+  PORT = 3000,
+  MONGO_DB_URL = 'mongodb://localhost:27017/mestodb',
+} = process.env;
+
+mongoose.connect(MONGO_DB_URL);
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -38,10 +44,6 @@ app.use(errorLogger);
 
 app.use(errors());
 app.use(handleError);
-
-mongoose.connect('mongodb://localhost:27017/mestodb', () => {
-  console.log('Connection successful');
-});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

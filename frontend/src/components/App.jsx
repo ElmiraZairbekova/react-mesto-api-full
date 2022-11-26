@@ -108,30 +108,16 @@ function App() {
       .finally(handleInfoTooltip);
   }
 
-  // useEffect(() => {
-  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //     .then(([user, cards]) => {
-  //       setCurrentUser(user);
-  //       setCards(cards);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, [isLoggedIn]);
-
   useEffect(() => {
-    isLoggedIn && 
-      Promise.all([
-        api.getUserInfo(), 
-        api.getInitialCards()
-      ])
-        .then(([user, cards]) => {
-          setCurrentUser(user);
-          setCards(cards);
-        })
-        .catch(e => console.log(`Ошибка первой загрузки: ${e}`))
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setCurrentUser(user);
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, [isLoggedIn]);
-
 
   function logOut () {
     setIsLoggedIn(false);
