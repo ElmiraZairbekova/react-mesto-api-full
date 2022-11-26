@@ -59,7 +59,6 @@ const getCurrentUser = (req, res, next) => User.findById(req.user._id)
     throw new NotFound('Пользователь не найден');
   })
   .then((user) => res.status(200).send({ user }))
-  .console.log(user)
   .catch((err) => {
     if (err.name === 'CastError') {
       throw new BadRequest('Переданы некорректные данные');
