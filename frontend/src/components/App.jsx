@@ -112,8 +112,8 @@ function App() {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([user, cards]) => {
         console.log(`${isLoggedIn}, CurrentUser: ${currentUser}, cards: ${cards}`);
-        setCurrentUser(user);
-        setCards(cards);
+        setCurrentUser(user.user);
+        setCards(cards.reverse());
       })
       .catch((err) => {
         console.error(err);
