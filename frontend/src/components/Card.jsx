@@ -5,11 +5,11 @@ function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
 
   // Владелец карточки или нет
-  const card = props.card; // объекты карточек
+  // const card = props.card; // объекты карточек
   const isOwn = props.card.owner === currentUser._id;
 
   // Есть ли лайк
-  const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+  const isLiked = props.card.likes.some(i => i === currentUser._id);
 
   function handleClick() {
     props.onCardClick(props.card);
